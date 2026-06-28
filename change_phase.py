@@ -21,7 +21,6 @@ import pyworld
 from scipy.ndimage import gaussian_filter1d
 import cma
 from denoise import *
-from align_loudness import *
 from pathlib import Path
 
 
@@ -40,7 +39,6 @@ msg_length = 10
 
 
 mel_loss = MultiMelSpectrogramLoss()
-aligner = AudioVolumeAligner()
 
 # BASE_DIR = Path(__file__).resolve().parent
 
@@ -48,15 +46,7 @@ aligner = AudioVolumeAligner()
 # MODEL_CONFIG = BASE_DIR / "timbre_watermarking" / "config_wm" / "model.yaml"
 
 
-BASE_DIR = Path(__file__).resolve().parent
-
-# 兼容两种结构：
-# 1. /root/change_phase.py + /root/timbre_watermarking/...
-# 2. /root/timbre_watermarking/change_phase.py + /root/timbre_watermarking/config_wm/...
-if (BASE_DIR / "config_wm").exists():
-    WM_ROOT = BASE_DIR
-else:
-    WM_ROOT = BASE_DIR / "timbre_watermarking"
+WM_ROOT = '/content/demorequirement/timbre_watermarking'
 
 PROCESS_CONFIG = WM_ROOT / "config_wm" / "process.yaml"
 MODEL_CONFIG = WM_ROOT / "config_wm" / "model.yaml"
@@ -92,9 +82,6 @@ def resolve_project_path(path_value):
     if candidate_1.exists():
         return candidate_1
 
-    candidate_2 = BASE_DIR / p
-    if candidate_2.exists():
-        return candidate_2
 
     return candidate_1
 
@@ -105,7 +92,6 @@ def load_yaml(path):
     if not path.exists():
         raise FileNotFoundError(
             f"Config file not found: {path}\n"
-            f"BASE_DIR={BASE_DIR}\n"
             f"WM_ROOT={WM_ROOT}\n"
             f"Files under WM_ROOT: {os.listdir(WM_ROOT) if WM_ROOT.exists() else 'WM_ROOT does not exist'}"
         )
