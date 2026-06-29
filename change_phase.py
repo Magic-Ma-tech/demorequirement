@@ -46,7 +46,7 @@ mel_loss = MultiMelSpectrogramLoss()
 # MODEL_CONFIG = BASE_DIR / "timbre_watermarking" / "config_wm" / "model.yaml"
 
 
-WM_ROOT = '/content/demorequirement/timbre_watermarking'
+WM_ROOT = Path('/content/demorequirement/timbre_watermarking')
 
 PROCESS_CONFIG = WM_ROOT / "config_wm" / "process.yaml"
 MODEL_CONFIG = WM_ROOT / "config_wm" / "model.yaml"
